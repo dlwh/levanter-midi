@@ -392,7 +392,7 @@ class Gpt2Embeddings(TorchSerializationMixin, eqx.Module):
         key,
     ):
         super().__init__()
-        k_wte, k_wpe, k_out = jrandom.split(key, 3)
+        k_wte, k_out = jrandom.split(key, 2) # k_wpe,
 
         self.Vocab = Vocab
         self.SeqLen = SeqLen
