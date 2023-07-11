@@ -20,10 +20,10 @@ trainer:
   learning_rate: 6E-4
   weight_decay: 0.1
   model_axis_size: 1
-  per_device_parallelism: 4
+  per_device_parallelism: 1
   num_train_steps: 100000
   #load_checkpoint_path: "gs://levanter-lakh/checkpoints/zesty-sun-215/step-90000"
-  train_batch_size: 128
+  train_batch_size: 32
 
   checkpointer:
     base_path: gs://levanter-eu/lakh-checkpoints/
