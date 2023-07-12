@@ -11,7 +11,7 @@ model:
   hidden_dim: 768
   num_heads: 12
   num_layers: 12
-  seq_len: 32768 
+  seq_len: 24576  
   gradient_checkpointing: true
   scale_attn_by_inverse_layer_idx: true
   embed_pdrop: 0.1
@@ -24,7 +24,7 @@ trainer:
   per_device_parallelism: 1
   num_train_steps: 100000
   #load_checkpoint_path: "gs://levanter-lakh/checkpoints/zesty-sun-215/step-90000"
-  train_batch_size: 4
+  train_batch_size: 8
 
   checkpointer:
     base_path: gs://levanter-eu/lakh-checkpoints/
