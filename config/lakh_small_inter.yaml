@@ -3,7 +3,7 @@ data:
       - "gs://levanter-eu/lakh-data-auto-inter/train.txt"
   validation_urls:
       - "gs://levanter-eu/lakh-data-auto-inter/valid.txt"
-  cache_dir: "gs://levanter-eu/lakh-data-inter/cache/"
+  cache_dir: "gs://levanter-eu/lakh-data-auto-inter/cache/"
   tokenizer: "passthrough"
   plaintext: True
   enforce_eos: False

@@ -241,6 +241,8 @@ def main(config: TrainGpt2Config):
             else:
                 logger.info("No checkpoint found. Starting from scratch")
 
+        '''
+        NOTE: removing the following for finetuning so we resume at step 0  
         if resume_step is not None:
             # step is after the batch, so we need to seek to step
             # TODO: iter_data.seek(resume_step +1)
@@ -250,7 +252,8 @@ def main(config: TrainGpt2Config):
                 next(iter_data)
             resume_step = resume_step + 1
         else:
-            resume_step = 0
+        '''
+        resume_step = 0
 
         # finally, run the training loop
         for step in range(resume_step, config.trainer.num_train_steps):
