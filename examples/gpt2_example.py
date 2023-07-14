@@ -234,7 +234,7 @@ def main(config: TrainGpt2Config):
             )
 
             if checkpoint is not None:
-                model, (opt_state, training_key), resume_step = checkpoint
+                model, (opt_state_discard, training_key), resume_step_discard = checkpoint
                 assert training_key.shape == jrandom.PRNGKey(0).shape
             elif config.trainer.load_checkpoint_path:
                 raise ValueError("No checkpoint found")
