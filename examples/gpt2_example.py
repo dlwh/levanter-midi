@@ -35,7 +35,8 @@ COMPARE_GRAD_ACCUM = False
 
 # jax.config.update("jax_debug_nans", True)
 jax.config.update("jax_default_prng_impl", "unsafe_rbg")
-jax.config.update("threefry_partitionable", True)
+# Jax version too old for this:
+# jax.config.update("threefry_partitionable", True)
 
 
 # cf https://github.com/google-research/language/blob/aa58066bec83d30de6c8f9123f0af7b81db3aeba/language/mentionmemory/training/trainer.py
