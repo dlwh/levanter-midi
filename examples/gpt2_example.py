@@ -151,7 +151,7 @@ def main(config: TrainGpt2Config):
 
                 return loss.scalar()
 
-        def compute_train_loss(model, input_ids, attn_mask, key=None):
+        def compute_train_loss(model, input_ids, attn_mask, key):
             return compute_loss(model, input_ids, attn_mask, key, inference=True)
 
         # training loop
@@ -173,7 +173,7 @@ def main(config: TrainGpt2Config):
                 model,
                 input_ids,
                 attn_mask,
-                key=None,
+                key=key,
                 per_device_parallelism=config.trainer.per_device_parallelism,
                 parameter_axis_mapping=parameter_axis_mapping,
             )
