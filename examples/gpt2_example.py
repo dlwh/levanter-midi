@@ -1,4 +1,5 @@
 import logging
+import os
 from dataclasses import dataclass
 from functools import partial
 
@@ -35,6 +36,7 @@ COMPARE_GRAD_ACCUM = False
 
 # jax.config.update("jax_debug_nans", True)
 jax.config.update("jax_default_prng_impl", "unsafe_rbg")
+assert "--xla_tpu_spmd_rng_bit_generator_unsafe=true" in os.environ.get("LIBTPU_INIT_ARGS", ""), "Must set LIBTPU_INIT_ARGS to include --xla_tpu_spmd_rng_bit_generator_unsafe=true"
 # Jax version too old for this:
 # jax.config.update("threefry_partitionable", True)
 
