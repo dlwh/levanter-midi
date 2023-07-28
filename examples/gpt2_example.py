@@ -31,7 +31,7 @@ from py_utils import non_caching_cycle
 
 logger = logging.getLogger(__name__)
 
-COMPARE_GRAD_ACCUM = True
+COMPARE_GRAD_ACCUM = False
 
 
 # cf https://github.com/google-research/language/blob/aa58066bec83d30de6c8f9123f0af7b81db3aeba/language/mentionmemory/training/trainer.py
