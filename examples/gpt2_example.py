@@ -155,7 +155,7 @@ def main(config: TrainGpt2Config):
                 return loss.scalar()
 
         def compute_train_loss(model, input_ids, attn_mask, key):
-            return compute_loss(model, input_ids, attn_mask, key, inference=True)
+            return compute_loss(model, input_ids, attn_mask, key, inference=False)
 
         # training loop
         # donate args to conserve memory
