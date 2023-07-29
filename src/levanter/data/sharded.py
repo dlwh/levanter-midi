@@ -12,6 +12,7 @@ from jaxtyping import Array, PyTree
 
 import haliax as hax
 import levanter.mesh
+from haliax import NamedArray
 from haliax.partitioning import ResourceMapping
 from haliax.util import is_named_array
 from levanter.data import Dataset
