@@ -30,7 +30,7 @@ from levanter.utils.py_utils import logical_cpu_core_count
 
 
 silence_transformer_nag()  # noqa
-from transformers import BatchEncoding, PreTrainedTokenizerBase, PreTrainedTokenizerFast  # noqa
+from transformers import BatchEncoding, PreTrainedTokenizerBase, PreTrainedTokenizerFast, PreTrainedTokenizer  # noqa
 
 from levanter.compat.hf_checkpoints import load_tokenizer  # noqa
 from levanter.data.dataset import ShardableDataset  # noqa
@@ -482,6 +482,7 @@ class LMDatasetConfig:
 
     # config for the tokenizer
     tokenizer: str = "gpt2"
+    plaintext: bool = False
     text_key: str = "text"  # key for the text field in the jsonl file or hf dataset
 
     # config related to caching
@@ -493,7 +494,10 @@ class LMDatasetConfig:
 
     @cached_property
     def the_tokenizer(self) -> PreTrainedTokenizerFast:
-        return load_tokenizer(self.tokenizer)
+        if self.tokenizer == "passthrough":
+            return PassthroughTokenizer(55028)  # hard-coding the vocab size for now
+        else:
+            return load_tokenizer(self.tokenizer)
 
     def token_seq_dataset(self, split: str, seq_len: int, monitors: Union[bool, List[MetricsMonitor]] = True):
         cache = self.build_or_load_cache(split, monitors=monitors)
@@ -546,7 +550,10 @@ class LMDatasetConfig:
                 # which is not nothing, but not ideal.
                 for line in f.readlines():
                     if row >= skip_to_doc:
-                        yield json.loads(line)[self.text_key]
+                        if self.plaintext:
+                            yield line
+                        else:
+                            yield json.loads(line)[self.text_key]
                     row += 1
 
     def urls_for_split(self, split):
@@ -655,3 +662,36 @@ class TextDataSource(ShardedDataSource[str]):
     def open_shard_at_row(self, shard_name: str, row: int) -> Iterator[str]:
         url = self._shard_name_to_url_mapping[shard_name]
         return self.config.generate_texts_from_urls([url], row)
+
+
+class PassthroughTokenizer(PreTrainedTokenizer):
+    def __init__(self, vocab_size, **kwargs):
+        super().__init__(**kwargs)
+        self._vocab_size = vocab_size
+        self._eos = self._vocab_size - 1
+        self._eos_token = str(self._eos)
+
+    @property
+    def vocab_size(self) -> int:
+        return self._vocab_size
+
+    @property
+    def eos_token(self) -> str:
+        return self._eos_token
+
+    @property
+    def eos_token_id(self) -> Optional[int]:
+        return self._eos
+
+    def save_vocabulary(self, save_directory: str, filename_prefix: Optional[str] = None) -> Tuple[str, ...]:
+        return ()
+
+    def _tokenize(self, text, **kwargs):
+        tokens = numpy.fromstring(text, dtype=int, sep=" ")
+        return tokens
+
+    def _convert_token_to_id(self, token: str) -> int:
+        return int(token)
+
+    def _convert_id_to_token(self, index: int) -> str:
+        return str(index)
