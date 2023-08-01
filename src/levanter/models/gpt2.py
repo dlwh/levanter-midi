@@ -309,7 +309,7 @@ class Gpt2Embeddings(StateDictSerializationMixin, eqx.Module):
 
     @staticmethod
     def init(Vocab: Axis, config: Gpt2Config, *, key) -> "Gpt2Embeddings":
-        k_wte, k_out = jrandom.split(key, 2) # k_wpe, 
+        k_wte, k_out = jrandom.split(key, 2) # k_wpe,
 
         token_embeddings = hax.random.normal(k_wte, (Vocab, config.Embed)) * config.initializer_range
         #position_embeddings = hax.random.normal(k_wpe, (config.Pos, config.Embed)) * (config.initializer_range / 2)
