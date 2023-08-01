@@ -292,7 +292,7 @@ def main(config: TrainLmConfig):
                     example = next(iter_data)
                     my_key, training_key = jrandom.split(training_key, 2)
 
-                print("training_key", my_key)
+                print("my_key", my_key)
                 print("example", example)
                 jax_step_loss, model, opt_state = train_step(model, opt_state, example, my_key)
                 step_loss = jax_step_loss.item()

@@ -19,15 +19,23 @@ model:
   resid_pdrop: 0.1
 trainer:
   mp: p=f32,c=bfloat16
-  model_axis_size: 4
+  model_axis_size: 2
   per_device_parallelism: 1
   num_train_steps: 115000
   #load_checkpoint_path: "gs://levanter-eu/lakh-checkpoints/blooming-plasma-85/step-104050"
-  train_batch_size: 8
+  train_batch_size: 32
 
   checkpointer:
     base_path: gs://levanter-eu/lakh-checkpoints/
     save_interval: 30m
+
+  axis_resources:
+    batch: "data"
+    vocab: "model"
+    mlp: "model"
+    heads: "model"
+  parameter_axis_resources:
+    embed: "data"
 optimizer:
   learning_rate: 6E-4
   weight_decay: 0.1
