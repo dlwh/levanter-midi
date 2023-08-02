@@ -20,10 +20,10 @@ model:
 trainer:
   mp: p=f32,c=bfloat16
   model_axis_size: 1
-  per_device_parallelism: 1
+  per_device_parallelism: 4
   num_train_steps: 115000
   #load_checkpoint_path: "gs://levanter-eu/lakh-checkpoints/blooming-plasma-85/step-104050"
-  train_batch_size: 1
+  train_batch_size: 32
 
   checkpointer:
     base_path: gs://levanter-eu/lakh-checkpoints/
