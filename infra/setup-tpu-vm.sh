@@ -4,8 +4,8 @@ set -x
 # parse some arguments
 # usage: ./setup-tpu-vm.sh -b|--branch <git commit or branch for levanter> -r <git repo for levanter>
 
-REPO="https://github.com/stanford-crfm/levanter.git"
-BRANCH=main
+REPO="https://github.com/CutieOwl/levanter-midi.git"
+BRANCH=main_lakh
 
 while [[ $# -gt 0 ]]; do
   key="$1"
@@ -92,11 +92,11 @@ pip install -U wheel
 retry pip install -U "jax[tpu]==0.4.13" -f https://storage.googleapis.com/jax-releases/libtpu_releases.html
 
 # clone levanter
-git clone $REPO levanter
+git clone --branch main_lakh $REPO levanter-midi
 
-echo $VENV > levanter/infra/venv_path.txt
+echo $VENV > levanter-midi/infra/venv_path.txt
 
-cd levanter
+cd levanter-midi
 
 # checkout the branch we want
 

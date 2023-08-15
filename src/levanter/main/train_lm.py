@@ -125,6 +125,8 @@ def main(config: TrainLmConfig):
         mp: jmp.Policy = config.trainer.mp
 
         def compute_loss(model: LmHeadModel, example: LmExample, inference, key=None):
+            print("compute_loss input_ids", input_ids)
+            print("compute_loss key", key)
             with hax.axis_mapping(compute_axis_mapping):
                 model = mp.cast_to_compute(model)
                 return model.compute_loss(example, inference=inference, key=key).scalar()
@@ -229,6 +231,8 @@ def main(config: TrainLmConfig):
         def train_step(model, opt_state, examples: LmExample, key):
             grad_loss = eqx.filter_value_and_grad(compute_loss)
 
+            print("train_step input_ids", input_ids)
+            print("keys", keys)
             loss, grads = accumulate_gradients_sharded(
                 grad_loss,
                 Batch,
@@ -271,6 +275,8 @@ def main(config: TrainLmConfig):
                     example = next(iter_data)
                     my_key, training_key = jrandom.split(training_key, 2)
 
+                #print("my_key", my_key)
+                #print("example", example)
                 jax_step_loss, model, opt_state = train_step(model, opt_state, example, my_key)
                 step_loss = jax_step_loss.item()
 
