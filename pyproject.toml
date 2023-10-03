@@ -25,7 +25,7 @@ dependencies = [
     # jax = {version = ">=0.4.10,<0.5.0"}
 #    "haliax~=1.0.2",
     # Haliax changes in step with levanter, so we'll just use the git version except for releases.
-    "haliax @ git+https://github.com/stanford-crfm/haliax.git",
+    "haliax @ git+https://github.com/stanford-crfm/haliax.git#egg=0ff60ec1d16780c4d42d74e96cbe0cdb5a58542",
     "equinox>=0.10.6",
     "jaxtyping>=0.2.20",
     "transformers>=4.22.0",
